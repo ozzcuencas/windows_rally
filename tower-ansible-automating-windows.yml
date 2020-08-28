@@ -34,7 +34,7 @@
    
    - name: Colocar el archivo neerdd.jpg en la ruta c:\Users\Administrator\Downloads
      win_copy:
-        src: 
+        src: files/neerdd.jpg
         dest: c:\Users\Administrator\Downloads
    - debug: var=copy
     
