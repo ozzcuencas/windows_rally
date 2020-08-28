@@ -1,0 +1,46 @@
+---
+- name: Automating Windows with Red Hat Ansible
+  hosts: all
+  gather_facts: false
+  tasks:
+   - name: Add a Windows Admin User
+     win_user:
+       name: ansible
+       password: "Redhat1!"
+       state: present
+       groups:
+           - Administrators
+     register: user
+   - debug: var=user  
+            
+   - name: Install Telnet-Client Feature
+     win_feature:
+       name: "Telnet-Client"
+       state: present
+       restart: False
+       include_sub_features: True
+       include_management_tools: True
+     register: telnet
+   - debug: var=telnet
+        
+   - name: Run a PowerShell Script
+     script: files/helloworld.ps1
+     register: script
+   - debug: var=script
+     
+   - name: Run ipconfig Command
+     raw: ipconfig
+     register: ipconfig
+   - debug: var=ipconfig
+   
+   - name: Check Status of file win.ini
+     win_stat: path="C:/Windows/win.ini"
+     register: stat_file 
+   - debug: var=stat_file
+    
+   - name: check stat_file result
+     assert:
+          that:
+             - "stat_file.stat.exists"
+             - "not stat_file.stat.isdir"
+             - "stat_file.stat.size > 0"
