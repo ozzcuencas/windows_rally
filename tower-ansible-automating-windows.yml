@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: false
   tasks:
-   - name: Add a Windows Admin User
+   - name: Usuario ansible con privilegios de administrador
      win_user:
        name: ansible
        password: "Redhat1!"
@@ -13,7 +13,7 @@
      register: user
    - debug: var=user  
             
-   - name: Install Telnet-Client Feature
+   - name: Instalación de Telnet-Client
      win_feature:
        name: "Telnet-Client"
        state: present
@@ -22,18 +22,33 @@
        include_management_tools: True
      register: telnet
    - debug: var=telnet
-        
-   - name: Run a PowerShell Script
+    
+   - name: Instalación de IIS Web-Server con management tools
+     win_feature:
+       name: Web-Server
+       state: present
+       include_sub_features: yes
+       include_management_tools: yes
+       register: win_feature 
+   - debug: var=iss
+   
+   - name: Colocar el archivo neerdd.jpg en la ruta c:\Users\Administrator\Downloads
+     win_copy:
+        src: 
+        dest: c:\Users\Administrator\Downloads
+   - debug: var=copy
+    
+   - name: Ejecutar el PowerShell script helloworld.ps1
      script: files/helloworld.ps1
      register: script
    - debug: var=script
      
-   - name: Run ipconfig Command
+   - name: Obtener dirección IP del equipo
      raw: ipconfig
      register: ipconfig
    - debug: var=ipconfig
    
-   - name: Check Status of file win.ini
+   - name: Validar el estatus del win.ini
      win_stat: path="C:/Windows/win.ini"
      register: stat_file 
    - debug: var=stat_file
