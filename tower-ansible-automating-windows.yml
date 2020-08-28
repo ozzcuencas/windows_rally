@@ -35,7 +35,7 @@
    - name: Colocar el archivo neerdd.jpg en la ruta c:\Users\Administrator\Downloads
      win_copy:
         src: files/neerdd.jpg
-        dest: c:\Users\Administrator\Downloads
+        dest: c:\Users\Administrator\Downloads\neerdd.jpg
    - debug: var=copy
     
    - name: Ejecutar el PowerShell script helloworld.ps1
