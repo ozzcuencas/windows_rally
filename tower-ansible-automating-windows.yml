@@ -30,12 +30,13 @@
        include_sub_features: yes
        include_management_tools: yes
        register: win_feature 
-   - debug: var=iss
+   - debug: var=win_feature
    
    - name: Colocar el archivo neerdd.jpg en la ruta c:\Users\Administrator\Downloads
      win_copy:
         src: files/neerdd.jpg
         dest: c:\Users\Administrator\Downloads\neerdd.jpg
+        register: copy
    - debug: var=copy
     
    - name: Ejecutar el PowerShell script helloworld.ps1
